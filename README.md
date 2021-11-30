@@ -1,6 +1,6 @@
 # Advent of Code 2021
 
-[![Rust](https://github.com/jeremylt/advent2021/workflows/Rust/badge.svg?branch=main)](https://github.com/jeremylt/advent2021/actions)
+[![Cargo Test](https://github.com/jeremylt/advent2021/workflows/Rust/badge.svg?branch=main)](https://github.com/jeremylt/advent2021/actions)
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Run on Repl.it](https://repl.it/badge/github/jeremylt/advent2021)](https://replit.com/@jeremylt/advent2021)
 
