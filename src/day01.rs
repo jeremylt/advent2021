@@ -1,0 +1,116 @@
+//! Day 1:
+//! This solution uses a binary mask array that contains the values between 1 and 2020
+//! found in the challenge input. I read the values into a mask array and load the values
+//! into a vector at the same time to reduce the memory movement.
+
+use crate::prelude::*;
+
+// Constant
+const YEAR: usize = 2020;
+
+// -----------------------------------------------------------------------------
+// Find pair of flagged indices that sum to length of mask array
+// -----------------------------------------------------------------------------
+#[inline(always)]
+fn find_two(array: &[bool]) -> Option<i32> {
+    array
+        .iter()
+        .enumerate()
+        .zip(array.iter().rev())
+        .find_map(|((i, a), b)| if a & b { Some(i as i32) } else { None })
+}
+
+// -----------------------------------------------------------------------------
+// Part 1
+// -----------------------------------------------------------------------------
+fn part_1(mask: &[bool]) -> crate::Result<(i32, i32)> {
+    match find_two(&mask) {
+        Some(index) => Ok((index, YEAR as i32 - index)),
+        None => Err(crate::Error {
+            message: "No pair found".to_string(),
+        }),
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Part 2
+// -----------------------------------------------------------------------------
+fn part_2(values: &[usize], mask: &[bool]) -> crate::Result<(i32, i32, i32)> {
+    for value in values {
+        let remainder = YEAR - *value;
+        let index = find_two(&mask[0..=remainder]);
+        if let Some(index) = index {
+            return Ok((*value as i32, index, YEAR as i32 - *value as i32 - index));
+        }
+    }
+    Err(crate::Error {
+        message: "No triple found".to_string(),
+    })
+}
+
+// -----------------------------------------------------------------------------
+// Run
+// -----------------------------------------------------------------------------
+pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
+    // -------------------------------------------------------------------------
+    // Setup
+    // -------------------------------------------------------------------------
+    // Read to vector
+    let start_setup = Instant::now();
+    let mut mask = [false; YEAR + 1];
+    let values: Vec<usize> = buffer
+        .lines()
+        .map(|line| {
+            // Read to array and mask at same time
+            let value = line.parse().expect("failed to parse line");
+            mask[value] = true;
+            value
+        })
+        .collect();
+    let time_setup = start_setup.elapsed();
+
+    // -------------------------------------------------------------------------
+    // Part 1
+    // -------------------------------------------------------------------------
+    // Look for pair
+    let start_part_1 = Instant::now();
+    let tuple = part_1(&mask)?;
+    let product_1 = tuple.0 * tuple.1;
+    let time_part_1 = start_part_1.elapsed();
+
+    // -------------------------------------------------------------------------
+    // Part 2
+    // -------------------------------------------------------------------------
+    // Look for triple
+    let start_part_2 = Instant::now();
+    let triple = part_2(&values, &mask)?;
+    let product_2 = triple.0 * triple.1 * triple.2;
+    let time_part_2 = start_part_2.elapsed();
+
+    // -------------------------------------------------------------------------
+    // Return
+    // -------------------------------------------------------------------------
+    Ok(RunData::new(
+        product_1 as i64,
+        product_2 as i64,
+        Timing::new(
+            time_setup,
+            time_part_1,
+            time_part_2,
+            std::time::Duration::new(0, 0),
+        ),
+    ))
+}
+
+// -----------------------------------------------------------------------------
+// Report
+// -----------------------------------------------------------------------------
+pub(crate) fn report(run_data: &RunData) -> crate::Result<()> {
+    output::print_day(1, "Report Repair")?;
+    output::print_part(1, "📄 Product", &format!("{}", run_data.part_1))?;
+    output::print_part(2, "📄 Product", &format!("{}", run_data.part_2))?;
+    output::print_timing(&run_data.times)?;
+    Ok(())
+}
+
+// -----------------------------------------------------------------------------

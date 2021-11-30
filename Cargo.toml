@@ -1,0 +1,14 @@
+[package]
+name = "advent2021"
+version = "0.1.0"
+authors = ["Jeremy L Thompson <jeremy@jeremylt.org>"]
+edition = "2018"
+
+[dependencies]
+arrayvec = "0.5.2"
+colored = "2"
+itertools = "0.9"
+lazy_static = "1.4.0"
+rayon = "1.5"
+rustc-hash = "1.1.0"
+fixedbitset = "0.3.1"
