@@ -1,7 +1,9 @@
 //! Day 1:
-//! This solution uses a sliding window of 2 values for the first part. However,
-//! for the second part the windows approach is less effecient and we move to a
-//! running sum of three value as we iterate through the depth values.
+//! This solution uses a sliding window of 2 values for the first part. In the
+//! second part we expand the window to 4 values as
+//! [a, b, c].sum() - [b, c, d].sum() = a - d, so we only need to consider the
+//! first and last values to determine if the three value windows increase or
+//! decrease.
 
 use crate::prelude::*;
 
@@ -9,26 +11,17 @@ use crate::prelude::*;
 // Part 1
 // -----------------------------------------------------------------------------
 fn part_1(depths: &Vec<i32>) -> crate::Result<i32> {
-    Ok(depths.windows(2).fold(0, |count, pair| {
-        count + if pair[1] > pair[0] { 1 } else { 0 }
-    }))
+    Ok(depths.windows(2).filter(|pair| pair[1] > pair[0]).count() as i32)
 }
 
 // -----------------------------------------------------------------------------
 // Part 2
 // -----------------------------------------------------------------------------
 fn part_2(depths: &Vec<i32>) -> crate::Result<i32> {
-    let mut sum = depths[0] + depths[1] + depths[2];
     Ok(depths
-        .iter()
-        .enumerate()
-        .skip(3)
-        .fold(0, |count, (index, current)| {
-            let old_sum = sum;
-            sum += current;
-            sum -= depths[index - 3];
-            count + if sum > old_sum { 1 } else { 0 }
-        }))
+        .windows(4)
+        .filter(|quartet| quartet[3] > quartet[0])
+        .count() as i32)
 }
 
 // -----------------------------------------------------------------------------
