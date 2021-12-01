@@ -416,7 +416,7 @@
     <span class="kw">fn</span> <span class="ident">test_01_sample</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day01_sample.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day01::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
-        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">514_579</span>, <span class="number">241_861_950</span>);
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">7</span>, <span class="number">5</span>);
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -424,7 +424,7 @@
     <span class="kw">fn</span> <span class="ident">test_01_actual</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day01_actual.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day01::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
-        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">326_211</span>, <span class="number">131_347_190</span>);
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">1_228</span>, <span class="number">1_257</span>);
         <span class="prelude-val">Ok</span>(())
     }
 }

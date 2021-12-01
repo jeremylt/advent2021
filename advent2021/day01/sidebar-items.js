@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["YEAR",""]],"fn":[["find_two",""],["part_1",""],["part_2",""],["report",""],["run",""]]});
+initSidebarItems({"fn":[["part_1",""],["part_2",""],["report",""],["run",""]]});
