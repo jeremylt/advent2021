@@ -200,7 +200,7 @@ mod tests {
     fn test_01_sample() -> Result<()> {
         let buffer = crate::load::data_to_buffer("data/day01_sample.txt".to_string())?;
         let results = day01::run(buffer)?;
-        test_day!(results, 514_579, 241_861_950);
+        test_day!(results, 7, 5);
         Ok(())
     }
 
@@ -208,7 +208,7 @@ mod tests {
     fn test_01_actual() -> Result<()> {
         let buffer = crate::load::data_to_buffer("data/day01_actual.txt".to_string())?;
         let results = day01::run(buffer)?;
-        test_day!(results, 326_211, 131_347_190);
+        test_day!(results, 1_228, 1_257);
         Ok(())
     }
 }
