@@ -150,9 +150,6 @@
 <span id="150">150</span>
 <span id="151">151</span>
 <span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 2:</span>
 <span class="doccomment">//! The main part of the effort for this solution is reading the input into a</span>
 <span class="doccomment">//! correct structure. From there folowing the computations is straightforward.</span>
@@ -237,12 +234,9 @@
             <span class="ident">vertical</span>: <span class="number">0</span>,
         },
         <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">acc</span>, <span class="ident">curr</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">curr</span>.<span class="ident">horizontal</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="ident">acc</span>.<span class="ident">horizontal</span> <span class="op">+</span><span class="op">=</span> <span class="ident">curr</span>.<span class="ident">horizontal</span>; <span class="comment">// increase horizontal by X</span>
-                <span class="ident">acc</span>.<span class="ident">vertical</span> <span class="op">+</span><span class="op">=</span> <span class="ident">acc</span>.<span class="ident">aim</span> <span class="op">*</span> <span class="ident">curr</span>.<span class="ident">horizontal</span>; <span class="comment">// increase depth by aim * X</span>
-            } <span class="kw">else</span> {
-                <span class="ident">acc</span>.<span class="ident">aim</span> <span class="op">+</span><span class="op">=</span> <span class="ident">curr</span>.<span class="ident">vertical</span>; <span class="comment">// increase aim by X</span>
-            }
+            <span class="ident">acc</span>.<span class="ident">aim</span> <span class="op">+</span><span class="op">=</span> <span class="ident">curr</span>.<span class="ident">vertical</span>; <span class="comment">// increase aim by X</span>
+            <span class="ident">acc</span>.<span class="ident">horizontal</span> <span class="op">+</span><span class="op">=</span> <span class="ident">curr</span>.<span class="ident">horizontal</span>; <span class="comment">// increase horizontal by X</span>
+            <span class="ident">acc</span>.<span class="ident">vertical</span> <span class="op">+</span><span class="op">=</span> <span class="ident">acc</span>.<span class="ident">aim</span> <span class="op">*</span> <span class="ident">curr</span>.<span class="ident">horizontal</span>; <span class="comment">// increase depth by aim * X</span>
             <span class="ident">acc</span>
         },
     ))
