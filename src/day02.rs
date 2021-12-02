@@ -1,6 +1,6 @@
 //! Day 2:
 //! The main part of the effort for this solution is reading the input into a
-//! correct structure. From there folowing the computations is straightforward.
+//! correct structure. From there folowing the computations are straightforward.
 //! In the second part, I leveraged the fact that one of the two parts of the
 //! Direction is zero to avoid branching logic, making the code take half as
 //! long as the branching version of the `fold`.
