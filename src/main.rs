@@ -2,6 +2,7 @@
 // Modules
 // -----------------------------------------------------------------------------
 mod day01;
+mod day02;
 mod load;
 mod output;
 
@@ -27,6 +28,14 @@ impl From<std::io::Error> for Error {
     fn from(io_error: std::io::Error) -> Self {
         Self {
             message: io_error.to_string(),
+        }
+    }
+}
+
+impl From<std::num::ParseIntError> for Error {
+    fn from(parse_error: std::num::ParseIntError) -> Self {
+        Self {
+            message: parse_error.to_string(),
         }
     }
 }
@@ -95,14 +104,14 @@ pub(crate) mod prelude {
 // -----------------------------------------------------------------------------
 fn main() -> Result<()> {
     // Setup
-    const DAYS: usize = 1;
-    let runs = [day01::run];
-    let data = ["data/day01_actual.txt"];
-    let reports = [day01::report];
+    const DAYS: usize = 2;
+    let runs = [day01::run, day02::run];
+    let data = ["data/day01_actual.txt", "data/day02_actual.txt"];
+    let reports = [day01::report, day02::report];
 
     // Each day
     output::print_header()?;
-    let mut day_results: [Vec<RunData>; DAYS] = [vec![]];
+    let mut day_results: [Vec<RunData>; DAYS] = [vec![], vec![]];
     for _ in 0..REPETITIONS {
         for (i, day) in runs.iter().enumerate() {
             let buffer = crate::load::data_to_buffer(data[i].to_string())?;
@@ -209,6 +218,22 @@ mod tests {
         let buffer = crate::load::data_to_buffer("data/day01_actual.txt".to_string())?;
         let results = day01::run(buffer)?;
         test_day!(results, 1_228, 1_257);
+        Ok(())
+    }
+
+    #[test]
+    fn test_02_sample() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day02_sample.txt".to_string())?;
+        let results = day02::run(buffer)?;
+        test_day!(results, 150, 900);
+        Ok(())
+    }
+
+    #[test]
+    fn test_02_actual() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day02_actual.txt".to_string())?;
+        let results = day02::run(buffer)?;
+        test_day!(results, 1_714_680, 1_963_088_820);
         Ok(())
     }
 }
