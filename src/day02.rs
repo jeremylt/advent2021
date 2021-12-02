@@ -1,6 +1,9 @@
 //! Day 2:
 //! The main part of the effort for this solution is reading the input into a
 //! correct structure. From there folowing the computations is straightforward.
+//! In the second part, I leveraged the fact that one of the two parts of the
+//! Direction is zero to avoid branching logic, making the code take half as
+//! long as the branching version of the `fold`.
 
 use crate::prelude::*;
 
@@ -82,7 +85,8 @@ fn part_2(directions: &Vec<Direction>) -> crate::Result<AimedDirection> {
             vertical: 0,
         },
         |mut acc, curr| {
-            acc.aim += curr.vertical; // increase aim by X
+            // One direction is aways zero, so can safely do both paths
+            acc.aim += curr.vertical; // increase aim by Y
             acc.horizontal += curr.horizontal; // increase horizontal by X
             acc.vertical += acc.aim * curr.horizontal; // increase depth by aim * X
             acc

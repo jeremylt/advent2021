@@ -1,9 +1,9 @@
 //! Day 1:
 //! This solution uses a sliding window of 2 values for the first part. In the
 //! second part we expand the window to 4 values as
-//! [a, b, c].sum() - [b, c, d].sum() = a - d, so we only need to consider the
-//! first and last values to determine if the three value windows increase or
-//! decrease.
+//! `[a, b, c].sum() - [b, c, d].sum() == a - d`, so we only need to consider
+//! the first and last values to determine if the three value windows increase
+//! or decrease.
 
 use crate::prelude::*;
 
