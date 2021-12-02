@@ -10,7 +10,7 @@ use crate::prelude::*;
 // -----------------------------------------------------------------------------
 // Direction data struct
 // -----------------------------------------------------------------------------
-#[derive(Debug)]
+#[derive(Default, Debug)]
 struct Direction {
     horizontal: i32, // positive is forward
     vertical: i32,   // positive is down
@@ -43,7 +43,7 @@ impl std::str::FromStr for Direction {
 // -----------------------------------------------------------------------------
 // Direction with Aim data struct
 // -----------------------------------------------------------------------------
-#[derive(Debug)]
+#[derive(Default, Debug)]
 struct AimedDirection {
     aim: i32,
     horizontal: i32, // positive is forward
@@ -54,37 +54,28 @@ struct AimedDirection {
 // Part 1
 // -----------------------------------------------------------------------------
 fn part_1(directions: &Vec<Direction>) -> crate::Result<Direction> {
-    Ok(directions.iter().fold(
-        Direction {
-            horizontal: 0,
-            vertical: 0,
-        },
-        |mut acc, curr| {
+    Ok(directions
+        .iter()
+        .fold(Direction::default(), |mut acc, curr| {
             acc.horizontal += curr.horizontal;
             acc.vertical += curr.vertical;
             acc
-        },
-    ))
+        }))
 }
 
 // -----------------------------------------------------------------------------
 // Part 2
 // -----------------------------------------------------------------------------
 fn part_2(directions: &Vec<Direction>) -> crate::Result<AimedDirection> {
-    Ok(directions.iter().fold(
-        AimedDirection {
-            aim: 0,
-            horizontal: 0,
-            vertical: 0,
-        },
-        |mut acc, curr| {
+    Ok(directions
+        .iter()
+        .fold(AimedDirection::default(), |mut acc, curr| {
             // One direction is aways zero, so can safely do both paths
             acc.aim += curr.vertical; // increase aim by Y
             acc.horizontal += curr.horizontal; // increase horizontal by X
             acc.vertical += acc.aim * curr.horizontal; // increase depth by aim * X
             acc
-        },
-    ))
+        }))
 }
 
 // -----------------------------------------------------------------------------
