@@ -85,23 +85,23 @@
 </pre><pre class="rust"><code><span class="doccomment">//! Day 1:</span>
 <span class="doccomment">//! This solution uses a sliding window of 2 values for the first part. In the</span>
 <span class="doccomment">//! second part we expand the window to 4 values as</span>
-<span class="doccomment">//! [a, b, c].sum() - [b, c, d].sum() = a - d, so we only need to consider the</span>
-<span class="doccomment">//! first and last values to determine if the three value windows increase or</span>
-<span class="doccomment">//! decrease.</span>
+<span class="doccomment">//! `[a, b, c].sum() - [b, c, d].sum() == a - d`, so we only need to consider</span>
+<span class="doccomment">//! the first and last values to determine if the three value windows increase</span>
+<span class="doccomment">//! or decrease.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
 
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Part 1</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">depths</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">depths</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
     <span class="prelude-val">Ok</span>(<span class="ident">depths</span>.<span class="ident">windows</span>(<span class="number">2</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">pair</span><span class="op">|</span> <span class="ident">pair</span>[<span class="number">1</span>] <span class="op">&gt;</span> <span class="ident">pair</span>[<span class="number">0</span>]).<span class="ident">count</span>() <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Part 2</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">fn</span> <span class="ident">part_2</span>(<span class="ident">depths</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">part_2</span>(<span class="ident">depths</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
     <span class="prelude-val">Ok</span>(<span class="ident">depths</span>
         .<span class="ident">windows</span>(<span class="number">4</span>)
         .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">quartet</span><span class="op">|</span> <span class="ident">quartet</span>[<span class="number">3</span>] <span class="op">&gt;</span> <span class="ident">quartet</span>[<span class="number">0</span>])
@@ -111,7 +111,7 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Run</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">buffer</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">RunData</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">buffer</span>: <span class="ident">String</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">RunData</span><span class="op">&gt;</span> {
     <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="comment">// Setup</span>
     <span class="comment">// -------------------------------------------------------------------------</span>
@@ -157,7 +157,7 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Report</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">report</span>(<span class="ident">run_data</span>: <span class="kw-2">&amp;</span><span class="ident">RunData</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">report</span>(<span class="ident">run_data</span>: <span class="kw-2">&amp;</span><span class="ident">RunData</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="ident">output::print_day</span>(<span class="number">1</span>, <span class="string">&quot;Sonar Sweep&quot;</span>)<span class="question-mark">?</span>;
     <span class="ident">output::print_part</span>(<span class="number">1</span>, <span class="string">&quot;📉 Increase&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">run_data</span>.<span class="ident">part_1</span>))<span class="question-mark">?</span>;
     <span class="ident">output::print_part</span>(<span class="number">2</span>, <span class="string">&quot;📉 Increase&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">run_data</span>.<span class="ident">part_2</span>))<span class="question-mark">?</span>;

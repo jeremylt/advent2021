@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["advent2021"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.56.1/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"advent2021/day02/struct.Direction.html\" title=\"struct advent2021::day02::Direction\">Direction</a>","synthetic":false,"types":["advent2021::day02::Direction"]}];
+implementors["advent2021"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.57.0/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"advent2021/day02/struct.Direction.html\" title=\"struct advent2021::day02::Direction\">Direction</a>","synthetic":false,"types":["advent2021::day02::Direction"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
