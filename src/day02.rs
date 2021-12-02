@@ -19,31 +19,26 @@ struct Direction {
 impl std::str::FromStr for Direction {
     type Err = crate::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let first_char = s.chars().nth(0).ok_or(crate::Error {
-            message: "failed to parse string".to_string(),
-        })?;
-        let mut horizontal = 0;
-        let mut vertical = 0;
-        match first_char {
-            'f' => {
-                horizontal = s[8..].parse()?;
-            }
-            'd' => {
-                vertical = s[5..].parse()?;
-            }
-            'u' => {
-                vertical = -s[3..].parse()?;
-            }
-            _ => {
-                return Err(crate::Error {
-                    message: "invalid direction".to_string(),
-                })
-            }
+        let mut line = s.splitn(2, ' ');
+        match line.next().ok_or(crate::Error {
+            message: "failed to parse command".to_string(),
+        })? {
+            "forward" => Ok(Self {
+                horizontal: s[8..].parse()?,
+                vertical: 0,
+            }),
+            "down" => Ok(Self {
+                horizontal: 0,
+                vertical: s[5..].parse()?,
+            }),
+            "up" => Ok(Self {
+                horizontal: 0,
+                vertical: -s[3..].parse()?,
+            }),
+            _ => Err(crate::Error {
+                message: "invalid direction".to_string(),
+            }),
         }
-        Ok(Self {
-            horizontal,
-            vertical,
-        })
     }
 }
 
