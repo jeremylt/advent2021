@@ -82,12 +82,9 @@ fn part_2(directions: &Vec<Direction>) -> crate::Result<AimedDirection> {
             vertical: 0,
         },
         |mut acc, curr| {
-            if curr.horizontal != 0 {
-                acc.horizontal += curr.horizontal; // increase horizontal by X
-                acc.vertical += acc.aim * curr.horizontal; // increase depth by aim * X
-            } else {
-                acc.aim += curr.vertical; // increase aim by X
-            }
+            acc.aim += curr.vertical; // increase aim by X
+            acc.horizontal += curr.horizontal; // increase horizontal by X
+            acc.vertical += acc.aim * curr.horizontal; // increase depth by aim * X
             acc
         },
     ))
