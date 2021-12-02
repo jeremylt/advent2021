@@ -20,9 +20,7 @@ impl std::str::FromStr for Direction {
     type Err = crate::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut line = s.splitn(2, ' ');
-        match line.next().ok_or(crate::Error {
-            message: "failed to parse command".to_string(),
-        })? {
+        match line.next().expect("failed to parse command") {
             "forward" => Ok(Self {
                 horizontal: s[8..].parse()?,
                 vertical: 0,
