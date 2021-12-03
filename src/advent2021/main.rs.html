@@ -239,11 +239,41 @@
 <span id="239">239</span>
 <span id="240">240</span>
 <span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
 </pre><pre class="rust"><code><span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Modules</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">mod</span> <span class="ident">day01</span>;
 <span class="kw">mod</span> <span class="ident">day02</span>;
+<span class="kw">mod</span> <span class="ident">day03</span>;
 <span class="kw">mod</span> <span class="ident">load</span>;
 <span class="kw">mod</span> <span class="ident">output</span>;
 
@@ -277,6 +307,14 @@
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">parse_error</span>: <span class="ident">std::num::ParseIntError</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">message</span>: <span class="ident">parse_error</span>.<span class="ident">to_string</span>(),
+        }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">std::string::FromUtf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">uft8_error</span>: <span class="ident">std::string::FromUtf8Error</span>) -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">message</span>: <span class="ident">uft8_error</span>.<span class="ident">to_string</span>(),
         }
     }
 }
@@ -345,14 +383,18 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">fn</span> <span class="ident">main</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
-    <span class="kw">const</span> <span class="ident">DAYS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
-    <span class="kw">let</span> <span class="ident">runs</span> <span class="op">=</span> [<span class="ident">day01::run</span>, <span class="ident">day02::run</span>];
-    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> [<span class="string">&quot;data/day01_actual.txt&quot;</span>, <span class="string">&quot;data/day02_actual.txt&quot;</span>];
-    <span class="kw">let</span> <span class="ident">reports</span> <span class="op">=</span> [<span class="ident">day01::report</span>, <span class="ident">day02::report</span>];
+    <span class="kw">const</span> <span class="ident">DAYS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">3</span>;
+    <span class="kw">let</span> <span class="ident">runs</span> <span class="op">=</span> [<span class="ident">day01::run</span>, <span class="ident">day02::run</span>, <span class="ident">day03::run</span>];
+    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> [
+        <span class="string">&quot;data/day01_actual.txt&quot;</span>,
+        <span class="string">&quot;data/day02_actual.txt&quot;</span>,
+        <span class="string">&quot;data/day03_actual.txt&quot;</span>,
+    ];
+    <span class="kw">let</span> <span class="ident">reports</span> <span class="op">=</span> [<span class="ident">day01::report</span>, <span class="ident">day02::report</span>, <span class="ident">day03::report</span>];
 
     <span class="comment">// Each day</span>
     <span class="ident">output::print_header</span>()<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">day_results</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RunData</span><span class="op">&gt;</span>; <span class="ident">DAYS</span>] <span class="op">=</span> [<span class="macro">vec!</span>[], <span class="macro">vec!</span>[]];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">day_results</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RunData</span><span class="op">&gt;</span>; <span class="ident">DAYS</span>] <span class="op">=</span> [<span class="macro">vec!</span>[], <span class="macro">vec!</span>[], <span class="macro">vec!</span>[]];
     <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">REPETITIONS</span> {
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">day</span>) <span class="kw">in</span> <span class="ident">runs</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="ident">data</span>[<span class="ident">i</span>].<span class="ident">to_string</span>())<span class="question-mark">?</span>;
@@ -475,6 +517,22 @@
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day02_actual.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day02::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
         <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">1_714_680</span>, <span class="number">1_963_088_820</span>);
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_03_sample</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day03_sample.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day03::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">198</span>, <span class="number">230</span>);
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_03_actual</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day03_actual.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day03::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">2_743_844</span>, <span class="number">6_677_951</span>);
         <span class="prelude-val">Ok</span>(())
     }
 }
