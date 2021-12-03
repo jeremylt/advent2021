@@ -130,7 +130,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
 // Report
 // -----------------------------------------------------------------------------
 pub(crate) fn report(run_data: &RunData) -> crate::Result<()> {
-    output::print_day(1, "Dive!")?;
+    output::print_day(2, "Dive!")?;
     output::print_part(1, "🧭 Product", &format!("{}", run_data.part_1))?;
     output::print_part(2, "🧭 Product", &format!("{}", run_data.part_2))?;
     output::print_timing(&run_data.times)?;
