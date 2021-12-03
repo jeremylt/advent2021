@@ -1,7 +1,7 @@
 # Advent of Code 2021
 ![Day](https://img.shields.io/badge/day%20📅-3-blue)
-![Stars](https://img.shields.io/badge/stars%20⭐-4-yellow)
-![Days Completed](https://img.shields.io/badge/days%20completed-2-red)
+![Stars](https://img.shields.io/badge/stars%20⭐-6-yellow)
+![Days Completed](https://img.shields.io/badge/days%20completed-3-red)
 
 [![Cargo Test and Style](https://github.com/jeremylt/advent2021/actions/workflows/rust-test-with-style.yml/badge.svg)](https://github.com/jeremylt/advent2021/actions/workflows/rust-test-with-style.yml)
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
