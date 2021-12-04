@@ -9,7 +9,7 @@ const NUMBER_SQ_ROOT: usize = 5;
 // -----------------------------------------------------------------------------
 // Direction data struct
 // -----------------------------------------------------------------------------
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 struct Board {
     entry_rows: [usize; NUMBER_ENTRIES],
     entry_columns: [usize; NUMBER_ENTRIES],
