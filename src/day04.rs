@@ -1,4 +1,7 @@
 //! Day 4:
+//! I encoded the board into row and column indices for each possible ball.
+//! I took a huge performance penalty for using `method(self)` instead of
+//! `method(&self)` at first.
 
 use crate::prelude::*;
 use itertools::Itertools;
@@ -9,7 +12,6 @@ const NUMBER_SQ_ROOT: usize = 5;
 // -----------------------------------------------------------------------------
 // Direction data struct
 // -----------------------------------------------------------------------------
-#[derive(Copy, Clone)]
 struct Board {
     entry_rows: [usize; NUMBER_ENTRIES],
     entry_columns: [usize; NUMBER_ENTRIES],
@@ -19,6 +21,7 @@ struct Board {
     visited_rows: [usize; NUMBER_SQ_ROOT + 1],
     visited_columns: [usize; NUMBER_SQ_ROOT + 1],
     visited_diagonals: [usize; 3],
+    won: bool,
 }
 
 impl Board {
@@ -52,15 +55,17 @@ impl Board {
             visited_rows: [0; NUMBER_SQ_ROOT + 1],
             visited_columns: [0; NUMBER_SQ_ROOT + 1],
             visited_diagonals: [0; 3],
+            won: false,
         })
     }
 
-    fn is_winner(self) -> crate::Result<bool> {
-        Ok(self
-            .visited_rows
-            .iter()
-            .skip(1)
-            .any(|visits| *visits == NUMBER_SQ_ROOT)
+    fn is_winner(&mut self) -> crate::Result<bool> {
+        self.won = self.won
+            || self
+                .visited_rows
+                .iter()
+                .skip(1)
+                .any(|visits| *visits == NUMBER_SQ_ROOT)
             || self
                 .visited_columns
                 .iter()
@@ -70,10 +75,11 @@ impl Board {
                 .visited_diagonals
                 .iter()
                 .skip(1)
-                .any(|visits| *visits == NUMBER_SQ_ROOT))
+                .any(|visits| *visits == NUMBER_SQ_ROOT);
+        Ok(self.won)
     }
 
-    fn score(self) -> crate::Result<i64> {
+    fn score(&self) -> crate::Result<u32> {
         Ok(self
             .visited
             .iter()
@@ -81,7 +87,7 @@ impl Board {
             .fold(0, |score, (i, visited)| {
                 return score
                     + if !*visited && self.entry_rows[i] != 0 {
-                        i as i64
+                        i as u32
                     } else {
                         0
                     };
@@ -92,7 +98,7 @@ impl Board {
 // -----------------------------------------------------------------------------
 // Part 1
 // -----------------------------------------------------------------------------
-fn part_1(balls: &Vec<usize>, boards: &mut Vec<Board>) -> crate::Result<(i64, usize)> {
+fn part_1(balls: &Vec<usize>, boards: &mut Vec<Board>) -> crate::Result<(u32, usize)> {
     let mut is_winner = false;
     let mut winner = 0;
     let mut winning_ball = 0;
@@ -126,7 +132,7 @@ fn part_2(
     last_ball: usize,
     balls: &Vec<usize>,
     boards: &mut Vec<Board>,
-) -> crate::Result<(i64, usize)> {
+) -> crate::Result<(u32, usize)> {
     let number_boards = boards.len();
     let mut winner_count = 1;
     let mut winner = 0;
@@ -140,15 +146,17 @@ fn part_2(
         let ball = *balls_iter.next().expect("insufficent balls");
         boards.iter_mut().enumerate().for_each(|(i, board)| {
             let won_before = board.is_winner().expect("failed to check status");
-            board.visited[ball] = true;
-            board.visited_rows[board.entry_rows[ball]] += 1;
-            board.visited_columns[board.entry_columns[ball]] += 1;
-            board.visited_diagonals[board.entry_diagonals[ball]] += 1;
-            let is_winner = board.is_winner().expect("failed to check status");
-            if !won_before && is_winner {
-                winner_count += 1;
-                if winner_count == number_boards {
-                    winner = i;
+            if !won_before {
+                board.visited[ball] = true;
+                board.visited_rows[board.entry_rows[ball]] += 1;
+                board.visited_columns[board.entry_columns[ball]] += 1;
+                board.visited_diagonals[board.entry_diagonals[ball]] += 1;
+                let is_winner = board.is_winner().expect("failed to check status");
+                if is_winner {
+                    winner_count += 1;
+                    if winner_count == number_boards {
+                        winner = i;
+                    }
                 }
             }
         });
@@ -191,7 +199,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // Sum coordinates
     let start_part_1 = Instant::now();
     let (score_1, ball_1) = part_1(&balls, &mut boards)?;
-    let product_1 = score_1 * ball_1 as i64;
+    let product_1 = score_1 * ball_1 as u32;
     let time_part_1 = start_part_1.elapsed();
 
     // -------------------------------------------------------------------------
@@ -200,7 +208,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // Compute coordinates with aimed directions
     let start_part_2 = Instant::now();
     let (score_2, ball_2) = part_2(ball_1, &balls, &mut boards)?;
-    let product_2 = score_2 * ball_2 as i64;
+    let product_2 = score_2 * ball_2 as u32;
     let time_part_2 = start_part_2.elapsed();
 
     // -------------------------------------------------------------------------
