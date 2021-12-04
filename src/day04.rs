@@ -101,10 +101,10 @@ impl Board {
 fn part_1(balls: &Vec<usize>, boards: &mut Vec<Board>) -> crate::Result<(u32, usize)> {
     let mut is_winner = false;
     let mut winner = 0;
-    let mut winning_ball = 0;
+    let mut ball = 0;
     let mut balls_iter = balls.iter();
     while !is_winner {
-        let ball = *balls_iter.next().expect("insufficent balls");
+        ball = *balls_iter.next().expect("insufficent balls");
         boards.iter_mut().enumerate().for_each(|(i, board)| {
             board.visited[ball] = true;
             board.visited_rows[board.entry_rows[ball]] += 1;
@@ -112,17 +112,12 @@ fn part_1(balls: &Vec<usize>, boards: &mut Vec<Board>) -> crate::Result<(u32, us
             board.visited_diagonals[board.entry_diagonals[ball]] += 1;
             if !is_winner {
                 is_winner = board.is_winner().expect("failed to check status");
-                if is_winner {
-                    winner = i;
-                }
+                winner = i;
             }
         });
-        if is_winner {
-            winning_ball = ball;
-        }
     }
     let score = boards[winner].score()?;
-    Ok((score, winning_ball))
+    Ok((score, ball))
 }
 
 // -----------------------------------------------------------------------------
@@ -136,36 +131,29 @@ fn part_2(
     let number_boards = boards.len();
     let mut winner_count = 1;
     let mut winner = 0;
-    let mut winning_ball = 0;
+    let mut ball = 0;
     let ball_index = balls
         .iter()
         .position(|ball| *ball == last_ball)
         .expect("failed to find ball");
     let mut balls_iter = balls.iter().skip(ball_index + 1);
     while winner_count != number_boards {
-        let ball = *balls_iter.next().expect("insufficent balls");
+        ball = *balls_iter.next().expect("insufficent balls");
         boards.iter_mut().enumerate().for_each(|(i, board)| {
-            let won_before = board.is_winner().expect("failed to check status");
-            if !won_before {
+            if !board.is_winner().expect("failed to check status") {
                 board.visited[ball] = true;
                 board.visited_rows[board.entry_rows[ball]] += 1;
                 board.visited_columns[board.entry_columns[ball]] += 1;
                 board.visited_diagonals[board.entry_diagonals[ball]] += 1;
-                let is_winner = board.is_winner().expect("failed to check status");
-                if is_winner {
+                if board.is_winner().expect("failed to check status") {
                     winner_count += 1;
-                    if winner_count == number_boards {
-                        winner = i;
-                    }
+                    winner = i;
                 }
             }
         });
-        if winner_count == number_boards {
-            winning_ball = ball;
-        }
     }
     let score = boards[winner].score()?;
-    Ok((score, winning_ball))
+    Ok((score, ball))
 }
 
 // -----------------------------------------------------------------------------
