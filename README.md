@@ -1,5 +1,5 @@
 # Advent of Code 2021
-![Day](https://img.shields.io/badge/day%20📅-3-blue)
+![Day](https://img.shields.io/badge/day%20📅-4-blue)
 ![Stars](https://img.shields.io/badge/stars%20⭐-6-yellow)
 ![Days Completed](https://img.shields.io/badge/days%20completed-3-red)
 
