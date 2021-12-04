@@ -16,7 +16,10 @@ I’m not entirely happy with this solution because it feel very cumbersome.
 The first part is messy because it is faster to count all bytes at the same
 time. For the second part, partitioning seems the most straightforward
 approach, but I have a lot of code duplication.</p>
-</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="day04/index.html" title="advent2021::day04 mod">day04</a></div><div class="item-right docblock-short"><p>Day 4:</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="day04/index.html" title="advent2021::day04 mod">day04</a></div><div class="item-right docblock-short"><p>Day 4:
+I encoded the board into row and column indices for each possible ball.
+I took a huge performance penalty for using <code>method(self)</code> instead of
+<code>method(&amp;self)</code> at first.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="load/index.html" title="advent2021::load mod">load</a></div><div class="item-right docblock-short"><p>Load:
 This module has the code for loading input from file to a string buffer</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="output/index.html" title="advent2021::output mod">output</a></div><div class="item-right docblock-short"><p>Output:
