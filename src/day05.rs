@@ -79,8 +79,10 @@ impl std::str::FromStr for Segment {
 // -----------------------------------------------------------------------------
 // Part 1
 // -----------------------------------------------------------------------------
-fn part_1(segments: &Vec<Segment>) -> crate::Result<usize> {
-    let mut grid = [[0_u8; GRID_SIZE]; GRID_SIZE];
+fn part_1(
+    grid: &mut [[u8; GRID_SIZE]; GRID_SIZE],
+    segments: &Vec<Segment>,
+) -> crate::Result<usize> {
     segments
         .iter()
         .filter(|segment| segment.dx == 0 || segment.dy == 0)
@@ -100,14 +102,19 @@ fn part_1(segments: &Vec<Segment>) -> crate::Result<usize> {
 // -----------------------------------------------------------------------------
 // Part 2
 // -----------------------------------------------------------------------------
-fn part_2(segments: &Vec<Segment>) -> crate::Result<usize> {
-    let mut grid = [[0_u8; GRID_SIZE]; GRID_SIZE];
-    segments.iter().for_each(|segment| {
-        (0..=segment.steps).for_each(|step| {
-            grid[(segment.start.x as i16 + step as i16 * segment.dx) as usize]
-                [(segment.start.y as i16 + step as i16 * segment.dy) as usize] += 1
-        })
-    });
+fn part_2(
+    grid: &mut [[u8; GRID_SIZE]; GRID_SIZE],
+    segments: &Vec<Segment>,
+) -> crate::Result<usize> {
+    segments
+        .iter()
+        .filter(|segment| segment.dx != 0 && segment.dy != 0)
+        .for_each(|segment| {
+            (0..=segment.steps).for_each(|step| {
+                grid[(segment.start.x as i16 + step as i16 * segment.dx) as usize]
+                    [(segment.start.y as i16 + step as i16 * segment.dy) as usize] += 1
+            })
+        });
     let count = grid
         .iter()
         .map(|row| row.iter().filter(|count| **count > 1).count())
@@ -133,17 +140,18 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Sum coordinates
+    // Count intersections
     let start_part_1 = Instant::now();
-    let count_1 = part_1(&segments)?;
+    let mut grid = [[0_u8; GRID_SIZE]; GRID_SIZE];
+    let count_1 = part_1(&mut grid, &segments)?;
     let time_part_1 = start_part_1.elapsed();
 
     // -------------------------------------------------------------------------
     // Part 2
     // -------------------------------------------------------------------------
-    // Compute coordinates with aimed directions
+    // Count all intersections
     let start_part_2 = Instant::now();
-    let count_2 = part_2(&segments)?;
+    let count_2 = part_2(&mut grid, &segments)?;
     let time_part_2 = start_part_2.elapsed();
 
     // -------------------------------------------------------------------------

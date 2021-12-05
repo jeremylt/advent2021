@@ -97,7 +97,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Sum coordinates
+    // Find most, least common bits represented across all values
     let start_part_1 = Instant::now();
     let product_1 = part_1(&report)?;
     let time_part_1 = start_part_1.elapsed();
@@ -105,7 +105,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 2
     // -------------------------------------------------------------------------
-    // Compute coordinates with aimed directions
+    // Find most, least common bits represented across reducing values
     let start_part_2 = Instant::now();
     let product_2 = part_2(&report)?;
     let time_part_2 = start_part_2.elapsed();

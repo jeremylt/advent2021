@@ -184,7 +184,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Sum coordinates
+    // Score first winning board
     let start_part_1 = Instant::now();
     let (score_1, ball_1) = part_1(&balls, &mut boards)?;
     let product_1 = score_1 * ball_1 as u32;
@@ -193,7 +193,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 2
     // -------------------------------------------------------------------------
-    // Compute coordinates with aimed directions
+    // Score last winnig board
     let start_part_2 = Instant::now();
     let (score_2, ball_2) = part_2(ball_1, &balls, &mut boards)?;
     let product_2 = score_2 * ball_2 as u32;
