@@ -412,7 +412,7 @@
     <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="comment">// Part 1</span>
     <span class="comment">// -------------------------------------------------------------------------</span>
-    <span class="comment">// Sum coordinates</span>
+    <span class="comment">// Score first winning board</span>
     <span class="kw">let</span> <span class="ident">start_part_1</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
     <span class="kw">let</span> (<span class="ident">score_1</span>, <span class="ident">ball_1</span>) <span class="op">=</span> <span class="ident">part_1</span>(<span class="kw-2">&amp;</span><span class="ident">balls</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">boards</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">product_1</span> <span class="op">=</span> <span class="ident">score_1</span> <span class="op">*</span> <span class="ident">ball_1</span> <span class="kw">as</span> <span class="ident">u32</span>;
@@ -421,7 +421,7 @@
     <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="comment">// Part 2</span>
     <span class="comment">// -------------------------------------------------------------------------</span>
-    <span class="comment">// Compute coordinates with aimed directions</span>
+    <span class="comment">// Score last winnig board</span>
     <span class="kw">let</span> <span class="ident">start_part_2</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
     <span class="kw">let</span> (<span class="ident">score_2</span>, <span class="ident">ball_2</span>) <span class="op">=</span> <span class="ident">part_2</span>(<span class="ident">ball_1</span>, <span class="kw-2">&amp;</span><span class="ident">balls</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">boards</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">product_2</span> <span class="op">=</span> <span class="ident">score_2</span> <span class="op">*</span> <span class="ident">ball_2</span> <span class="kw">as</span> <span class="ident">u32</span>;
