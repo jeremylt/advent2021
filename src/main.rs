@@ -5,6 +5,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 mod load;
 mod output;
 
@@ -100,7 +101,7 @@ impl Timing {
 // -----------------------------------------------------------------------------
 // Prelude
 // -----------------------------------------------------------------------------
-const REPETITIONS: u32 = 5;
+const REPETITIONS: u32 = 1;
 pub(crate) mod prelude {
     pub(crate) use crate::REPETITIONS;
     pub(crate) use crate::{output, RunData, Timing};
@@ -114,19 +115,26 @@ pub(crate) mod prelude {
 // -----------------------------------------------------------------------------
 fn main() -> Result<()> {
     // Setup
-    const DAYS: usize = 4;
-    let runs = [day01::run, day02::run, day03::run, day04::run];
+    const DAYS: usize = 5;
+    let runs = [day01::run, day02::run, day03::run, day04::run, day05::run];
     let data = [
         "data/day01_actual.txt",
         "data/day02_actual.txt",
         "data/day03_actual.txt",
         "data/day04_actual.txt",
+        "data/day05_actual.txt",
     ];
-    let reports = [day01::report, day02::report, day03::report, day04::report];
+    let reports = [
+        day01::report,
+        day02::report,
+        day03::report,
+        day04::report,
+        day05::report,
+    ];
 
     // Each day
     output::print_header()?;
-    let mut day_results: [Vec<RunData>; DAYS] = [vec![], vec![], vec![], vec![]];
+    let mut day_results: [Vec<RunData>; DAYS] = [vec![], vec![], vec![], vec![], vec![]];
     for _ in 0..REPETITIONS {
         for (i, day) in runs.iter().enumerate() {
             let buffer = crate::load::data_to_buffer(data[i].to_string())?;
@@ -281,6 +289,22 @@ mod tests {
         let buffer = crate::load::data_to_buffer("data/day04_actual.txt".to_string())?;
         let results = day04::run(buffer)?;
         test_day!(results, 38_913, 16_836);
+        Ok(())
+    }
+
+    #[test]
+    fn test_05_sample() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day05_sample.txt".to_string())?;
+        let results = day05::run(buffer)?;
+        test_day!(results, 5, 12);
+        Ok(())
+    }
+
+    #[test]
+    fn test_05_actual() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day05_actual.txt".to_string())?;
+        let results = day05::run(buffer)?;
+        test_day!(results, 5_167, 17_604);
         Ok(())
     }
 }
