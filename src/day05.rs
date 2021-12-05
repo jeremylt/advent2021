@@ -135,6 +135,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
         .lines()
         .map(|line| line.parse().expect("failed to parse line"))
         .collect();
+    let mut grid = [[0_u8; GRID_SIZE]; GRID_SIZE];
     let time_setup = start_setup.elapsed();
 
     // -------------------------------------------------------------------------
@@ -142,7 +143,6 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Count intersections
     let start_part_1 = Instant::now();
-    let mut grid = [[0_u8; GRID_SIZE]; GRID_SIZE];
     let count_1 = part_1(&mut grid, &segments)?;
     let time_part_1 = start_part_1.elapsed();
 
