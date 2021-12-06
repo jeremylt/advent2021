@@ -1,6 +1,8 @@
 //! Day 6:
 //! This was a reasonably straightforward problem. The key is to keep track of
 //! number of fish of each age instead of modeling each fish separately.
+//! Of note, manually rotating seems to be faster than `rotate_left(1)` in this
+//! particular problem.
 
 use crate::prelude::*;
 
