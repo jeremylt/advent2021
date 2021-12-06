@@ -100,9 +100,13 @@
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 6:</span>
 <span class="doccomment">//! This was a reasonably straightforward problem. The key is to keep track of</span>
 <span class="doccomment">//! number of fish of each age instead of modeling each fish separately.</span>
+<span class="doccomment">//! Of note, manually rotating seems to be faster than `rotate_left(1)` in this</span>
+<span class="doccomment">//! particular problem.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
 
