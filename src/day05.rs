@@ -174,8 +174,8 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
 // -----------------------------------------------------------------------------
 pub(crate) fn report(run_data: &RunData) -> crate::Result<()> {
     output::print_day(5, "Hydrothermal Venture")?;
-    output::print_part(1, "🪨 Count", &format!("{}", run_data.part_1))?;
-    output::print_part(2, "🪨 Count", &format!("{}", run_data.part_2))?;
+    output::print_part(1, "🐙 Count", &format!("{}", run_data.part_1))?;
+    output::print_part(2, "🐙 Count", &format!("{}", run_data.part_2))?;
     output::print_timing(&run_data.times)?;
     Ok(())
 }
