@@ -64,7 +64,7 @@ impl std::str::FromStr for Segment {
 // -----------------------------------------------------------------------------
 // Part 1/2
 // -----------------------------------------------------------------------------
-fn part_1(grid: &mut Vec<u8>, segments: &Vec<Segment>) -> crate::Result<usize> {
+fn part_1(grid: &mut [u8; GRID_SIZE * GRID_SIZE], segments: &Vec<Segment>) -> crate::Result<usize> {
     let mut count = 0;
     segments.iter().for_each(|segment| {
         let start = (segment.start.x as usize) * GRID_SIZE + segment.start.y as usize;
@@ -105,7 +105,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
             segments_2.push(segment)
         };
     });
-    let mut grid = vec![0_u8; GRID_SIZE * GRID_SIZE];
+    let mut grid = [0_u8; GRID_SIZE * GRID_SIZE];
     let time_setup = start_setup.elapsed();
 
     // -------------------------------------------------------------------------
