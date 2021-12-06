@@ -85,12 +85,12 @@ impl Board {
             .iter()
             .enumerate()
             .fold(0, |score, (i, visited)| {
-                return score
+                score
                     + if !*visited && self.entry_rows[i] != 0 {
                         i as u32
                     } else {
                         0
-                    };
+                    }
             }))
     }
 }
