@@ -101,12 +101,12 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
-<span id="104">104</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 6:</span>
 <span class="doccomment">//! This was a reasonably straightforward problem. The key is to keep track of</span>
 <span class="doccomment">//! number of fish of each age instead of modeling each fish separately.</span>
 <span class="doccomment">//! Of note, manually rotating seems to be faster than `rotate_left(1)` in this</span>
-<span class="doccomment">//! particular problem.</span>
+<span class="doccomment">//! particular problem. Also of note, there is no need to actually rotate all of</span>
+<span class="doccomment">//! the fish if you rotate the meaning of each index.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
 
@@ -118,11 +118,10 @@
 <span class="comment">// Part 1</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">population</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">usize</span>; <span class="ident">NUMBER_DAYS</span>], <span class="ident">generations</span>: <span class="ident">usize</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-    (<span class="number">0</span>..<span class="ident">generations</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">day_0</span> <span class="op">=</span> <span class="ident">population</span>[<span class="number">0</span>];
-        (<span class="number">0</span>..<span class="ident">NUMBER_DAYS</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">population</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">population</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>]);
-        <span class="ident">population</span>[<span class="number">6</span>] <span class="op">+</span><span class="op">=</span> <span class="ident">day_0</span>;
-        <span class="ident">population</span>[<span class="number">8</span>] <span class="op">=</span> <span class="ident">day_0</span>;
+    (<span class="number">0</span>..<span class="ident">generations</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">fish_day_0</span> <span class="op">=</span> <span class="ident">population</span>[<span class="ident">i</span> <span class="op">%</span> <span class="ident">NUMBER_DAYS</span>];
+        <span class="kw">let</span> <span class="ident">day_6</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">+</span> <span class="ident">NUMBER_DAYS</span> <span class="op">-</span> <span class="number">2</span>) <span class="op">%</span> <span class="ident">NUMBER_DAYS</span>;
+        <span class="ident">population</span>[<span class="ident">day_6</span>] <span class="op">+</span><span class="op">=</span> <span class="ident">fish_day_0</span>;
     });
     <span class="prelude-val">Ok</span>(<span class="ident">population</span>.<span class="ident">iter</span>().<span class="ident">sum</span>())
 }
@@ -135,11 +134,10 @@
     <span class="ident">initial_generations</span>: <span class="ident">usize</span>,
     <span class="ident">final_generations</span>: <span class="ident">usize</span>,
 ) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-    (<span class="ident">initial_generations</span>..<span class="ident">final_generations</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">day_0</span> <span class="op">=</span> <span class="ident">population</span>[<span class="number">0</span>];
-        (<span class="number">0</span>..<span class="ident">NUMBER_DAYS</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">population</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">population</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>]);
-        <span class="ident">population</span>[<span class="number">6</span>] <span class="op">+</span><span class="op">=</span> <span class="ident">day_0</span>;
-        <span class="ident">population</span>[<span class="number">8</span>] <span class="op">=</span> <span class="ident">day_0</span>;
+    (<span class="ident">initial_generations</span>..<span class="ident">final_generations</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">fish_day_0</span> <span class="op">=</span> <span class="ident">population</span>[<span class="ident">i</span> <span class="op">%</span> <span class="ident">NUMBER_DAYS</span>];
+        <span class="kw">let</span> <span class="ident">day_6</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">+</span> <span class="ident">NUMBER_DAYS</span> <span class="op">-</span> <span class="number">2</span>) <span class="op">%</span> <span class="ident">NUMBER_DAYS</span>;
+        <span class="ident">population</span>[<span class="ident">day_6</span>] <span class="op">+</span><span class="op">=</span> <span class="ident">fish_day_0</span>;
     });
     <span class="prelude-val">Ok</span>(<span class="ident">population</span>.<span class="ident">iter</span>().<span class="ident">sum</span>())
 }
