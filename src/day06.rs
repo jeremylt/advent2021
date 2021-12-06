@@ -2,7 +2,8 @@
 //! This was a reasonably straightforward problem. The key is to keep track of
 //! number of fish of each age instead of modeling each fish separately.
 //! Of note, manually rotating seems to be faster than `rotate_left(1)` in this
-//! particular problem.
+//! particular problem. Also of note, there is no need to actually rotate all of
+//! the fish if you rotate the meaning of each index.
 
 use crate::prelude::*;
 
@@ -14,11 +15,10 @@ const NUMBER_GENERATIONS_BIG: usize = 256;
 // Part 1
 // -----------------------------------------------------------------------------
 fn part_1(population: &mut [usize; NUMBER_DAYS], generations: usize) -> crate::Result<usize> {
-    (0..generations).for_each(|_| {
-        let day_0 = population[0];
-        (0..NUMBER_DAYS - 1).for_each(|i| population[i] = population[i + 1]);
-        population[6] += day_0;
-        population[8] = day_0;
+    (0..generations).for_each(|i| {
+        let fish_day_0 = population[i % NUMBER_DAYS];
+        let day_6 = (i + NUMBER_DAYS - 2) % NUMBER_DAYS;
+        population[day_6] += fish_day_0;
     });
     Ok(population.iter().sum())
 }
@@ -31,11 +31,10 @@ fn part_2(
     initial_generations: usize,
     final_generations: usize,
 ) -> crate::Result<usize> {
-    (initial_generations..final_generations).for_each(|_| {
-        let day_0 = population[0];
-        (0..NUMBER_DAYS - 1).for_each(|i| population[i] = population[i + 1]);
-        population[6] += day_0;
-        population[8] = day_0;
+    (initial_generations..final_generations).for_each(|i| {
+        let fish_day_0 = population[i % NUMBER_DAYS];
+        let day_6 = (i + NUMBER_DAYS - 2) % NUMBER_DAYS;
+        population[day_6] += fish_day_0;
     });
     Ok(population.iter().sum())
 }
