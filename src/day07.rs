@@ -1,7 +1,8 @@
 //! Day 7:
 //! The triangle number formula helps tidy up the code here. I am nearly certain
 //! that the answer for part 2 has to occur near the average, but I don't have
-//! a full proof of this hunch.
+//! a full proof of this hunch. Sorting is the bottleneck, but using an
+//! unstable sort helps somewhat.
 
 use crate::prelude::*;
 
@@ -15,7 +16,7 @@ fn gauss_sum(n: u32) -> u32 {
 // -----------------------------------------------------------------------------
 // Part 1
 // -----------------------------------------------------------------------------
-fn part_1(positions: &Vec<u32>) -> crate::Result<u32> {
+fn part_1(positions: &Vec<u16>) -> crate::Result<u32> {
     let median = positions[positions.len() / 2];
     let fuel = positions
         .iter()
@@ -27,8 +28,9 @@ fn part_1(positions: &Vec<u32>) -> crate::Result<u32> {
 // -----------------------------------------------------------------------------
 // Part 2
 // -----------------------------------------------------------------------------
-fn part_2(positions: &Vec<u32>) -> crate::Result<u32> {
-    let average_float = positions.iter().sum::<u32>() as f32 / positions.len() as f32;
+fn part_2(positions: &Vec<u16>) -> crate::Result<u32> {
+    let average_float =
+        positions.iter().map(|n| *n as u32).sum::<u32>() as f32 / positions.len() as f32;
     let average_floor = average_float.floor() as u32;
     let average_ceil = average_float.ceil() as u32;
     let (fuel_floor, fuel_ceil) = positions.iter().fold((0_u32, 0_u32), |acc, position| {
@@ -51,12 +53,12 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Read to vector
     let start_setup = Instant::now();
-    let mut positions: Vec<u32> = buffer
+    let mut positions: Vec<u16> = buffer
         .trim()
         .split(',')
         .map(|position| position.parse().expect("failed to parse position"))
         .collect();
-    positions.sort();
+    positions.sort_unstable();
     let time_setup = start_setup.elapsed();
 
     // -------------------------------------------------------------------------
