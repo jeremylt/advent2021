@@ -102,10 +102,13 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 7:</span>
 <span class="doccomment">//! The triangle number formula helps tidy up the code here. I am nearly certain</span>
 <span class="doccomment">//! that the answer for part 2 has to occur near the average, but I don&#39;t have</span>
-<span class="doccomment">//! a full proof of this hunch.</span>
+<span class="doccomment">//! a full proof of this hunch. Sorting is the bottleneck, but using an</span>
+<span class="doccomment">//! unstable sort helps somewhat.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
 
@@ -119,7 +122,7 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Part 1</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">median</span> <span class="op">=</span> <span class="ident">positions</span>[<span class="ident">positions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span>];
     <span class="kw">let</span> <span class="ident">fuel</span> <span class="op">=</span> <span class="ident">positions</span>
         .<span class="ident">iter</span>()
@@ -131,8 +134,9 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Part 2</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
-<span class="kw">fn</span> <span class="ident">part_2</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">average_float</span> <span class="op">=</span> <span class="ident">positions</span>.<span class="ident">iter</span>().<span class="ident">sum</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">positions</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">f32</span>;
+<span class="kw">fn</span> <span class="ident">part_2</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">average_float</span> <span class="op">=</span>
+        <span class="ident">positions</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">sum</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">positions</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">f32</span>;
     <span class="kw">let</span> <span class="ident">average_floor</span> <span class="op">=</span> <span class="ident">average_float</span>.<span class="ident">floor</span>() <span class="kw">as</span> <span class="ident">u32</span>;
     <span class="kw">let</span> <span class="ident">average_ceil</span> <span class="op">=</span> <span class="ident">average_float</span>.<span class="ident">ceil</span>() <span class="kw">as</span> <span class="ident">u32</span>;
     <span class="kw">let</span> (<span class="ident">fuel_floor</span>, <span class="ident">fuel_ceil</span>) <span class="op">=</span> <span class="ident">positions</span>.<span class="ident">iter</span>().<span class="ident">fold</span>((<span class="number">0_u32</span>, <span class="number">0_u32</span>), <span class="op">|</span><span class="ident">acc</span>, <span class="ident">position</span><span class="op">|</span> {
@@ -155,12 +159,12 @@
     <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="comment">// Read to vector</span>
     <span class="kw">let</span> <span class="ident">start_setup</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">positions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">buffer</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">positions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">buffer</span>
         .<span class="ident">trim</span>()
         .<span class="ident">split</span>(<span class="string">&#39;,&#39;</span>)
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">position</span><span class="op">|</span> <span class="ident">position</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;failed to parse position&quot;</span>))
         .<span class="ident">collect</span>();
-    <span class="ident">positions</span>.<span class="ident">sort</span>();
+    <span class="ident">positions</span>.<span class="ident">sort_unstable</span>();
     <span class="kw">let</span> <span class="ident">time_setup</span> <span class="op">=</span> <span class="ident">start_setup</span>.<span class="ident">elapsed</span>();
 
     <span class="comment">// -------------------------------------------------------------------------</span>
