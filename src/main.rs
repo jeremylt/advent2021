@@ -7,6 +7,7 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
 mod load;
 mod output;
 
@@ -116,7 +117,7 @@ pub(crate) mod prelude {
 // -----------------------------------------------------------------------------
 fn main() -> Result<()> {
     // Setup
-    const DAYS: usize = 6;
+    const DAYS: usize = 7;
     let runs = [
         day01::run,
         day02::run,
@@ -124,6 +125,7 @@ fn main() -> Result<()> {
         day04::run,
         day05::run,
         day06::run,
+        day07::run,
     ];
     let data = [
         "data/day01_actual.txt",
@@ -132,6 +134,7 @@ fn main() -> Result<()> {
         "data/day04_actual.txt",
         "data/day05_actual.txt",
         "data/day06_actual.txt",
+        "data/day07_actual.txt",
     ];
     let reports = [
         day01::report,
@@ -140,11 +143,13 @@ fn main() -> Result<()> {
         day04::report,
         day05::report,
         day06::report,
+        day07::report,
     ];
 
     // Each day
     output::print_header()?;
-    let mut day_results: [Vec<RunData>; DAYS] = [vec![], vec![], vec![], vec![], vec![], vec![]];
+    let mut day_results: [Vec<RunData>; DAYS] =
+        [vec![], vec![], vec![], vec![], vec![], vec![], vec![]];
     for _ in 0..REPETITIONS {
         for (i, day) in runs.iter().enumerate() {
             let buffer = crate::load::data_to_buffer(data[i].to_string())?;
@@ -331,6 +336,22 @@ mod tests {
         let buffer = crate::load::data_to_buffer("data/day06_actual.txt".to_string())?;
         let results = day06::run(buffer)?;
         test_day!(results, 345_387, 1_574_445_493_136);
+        Ok(())
+    }
+
+    #[test]
+    fn test_07_sample() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day07_sample.txt".to_string())?;
+        let results = day07::run(buffer)?;
+        test_day!(results, 37, 168);
+        Ok(())
+    }
+
+    #[test]
+    fn test_07_actual() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day07_actual.txt".to_string())?;
+        let results = day07::run(buffer)?;
+        test_day!(results, 337_488, 89_647_695);
         Ok(())
     }
 }
