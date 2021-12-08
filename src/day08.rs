@@ -8,6 +8,35 @@ use crate::prelude::*;
 
 const NUMBER_DIGITS: usize = 4;
 
+//    0:      1:      2:      3:      4:
+//  aaaa    ....    aaaa    aaaa    ....
+// b    c  .    c  .    c  .    c  b    c
+// b    c  .    c  .    c  .    c  b    c
+//  ....    ....    dddd    dddd    dddd
+// e    f  .    f  e    .  .    f  .    f
+// e    f  .    f  e    .  .    f  .    f
+//  gggg    ....    gggg    gggg    ....
+// 
+//  5:      6:      7:      8:      9:
+//  aaaa    aaaa    aaaa    aaaa    aaaa
+// b    .  b    .  .    c  b    c  b    c
+// b    .  b    .  .    c  b    c  b    c
+//  dddd    dddd    ....    dddd    dddd
+// .    f  e    f  .    f  e    f  .    f
+// .    f  e    f  .    f  e    f  .    f
+// gggg    gggg    ....    gggg    gggg
+//
+// 0: has 6 segments, 3 overlapping with 4
+// 1: has 2 segments
+// 2: has 5 segments, last option
+// 3: has 5 segments, 2 overlapping with 1
+// 4: has 4 segments
+// 5: has 5 segments, 3 overlapping with 4
+// 6: has 6 segments, 1 overlapping with 1
+// 7: has 3 segments
+// 8: has 7 segments
+// 9: has 6 segments, last option
+
 // -----------------------------------------------------------------------------
 // Display data struct
 // -----------------------------------------------------------------------------
