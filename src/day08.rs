@@ -121,8 +121,14 @@ impl Display {
     fn count_simple_digits(&self) -> u8 {
         self.digits
             .iter()
-            .filter(|digit| **digit == 1 || **digit == 4 || **digit == 7 || **digit == 8)
+            .filter(|digit| [1, 4, 7, 8].contains(*digit))
             .count() as u8
+    }
+
+    fn digit_sum(&self) -> u32 {
+        self.digits
+            .iter()
+            .fold(0, |sum, curr| sum * 10 + *curr as u32)
     }
 }
 
@@ -140,15 +146,7 @@ fn part_1(positions: &Vec<Display>) -> crate::Result<u32> {
 // Part 2
 // -----------------------------------------------------------------------------
 fn part_2(positions: &Vec<Display>) -> crate::Result<u32> {
-    Ok(positions
-        .iter()
-        .map(|display| {
-            display.digits[0] as u32 * 1000
-                + display.digits[1] as u32 * 100
-                + display.digits[2] as u32 * 10
-                + display.digits[3] as u32
-        })
-        .sum())
+    Ok(positions.iter().map(|display| display.digit_sum()).sum())
 }
 
 // -----------------------------------------------------------------------------
@@ -158,11 +156,7 @@ fn combined(positions: &mut dyn Iterator<Item = Display>) -> crate::Result<(u32,
     Ok(positions.fold((0, 0), |acc, display| {
         (
             acc.0 + display.count_simple_digits() as u32,
-            acc.1
-                + display.digits[0] as u32 * 1000
-                + display.digits[1] as u32 * 100
-                + display.digits[2] as u32 * 10
-                + display.digits[3] as u32,
+            acc.1 + display.digit_sum(),
         )
     }))
 }
