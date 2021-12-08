@@ -64,7 +64,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Count intersections
+    // Count fuel to median position
     let start_part_1 = Instant::now();
     let fuel_1 = part_1(&positions)?;
     let time_part_1 = start_part_1.elapsed();
@@ -72,7 +72,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 2
     // -------------------------------------------------------------------------
-    // Count all intersections
+    // Count fuel to average position
     let start_part_2 = Instant::now();
     let fuel_2 = part_2(&positions)?;
     let time_part_2 = start_part_2.elapsed();

@@ -57,7 +57,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Count intersections
+    // Count 80 days of fish
     let start_part_1 = Instant::now();
     let count_1 = part_1(&mut initial_population, NUMBER_GENERATIONS_SMALL)?;
     let time_part_1 = start_part_1.elapsed();
@@ -65,7 +65,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Part 2
     // -------------------------------------------------------------------------
-    // Count all intersections
+    // Count 256 days of fish
     let start_part_2 = Instant::now();
     let count_2 = part_2(
         &mut initial_population,
