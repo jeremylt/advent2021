@@ -31,46 +31,59 @@ fn to_bits(s: &str) -> u8 {
 impl std::str::FromStr for Display {
     type Err = crate::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let mut data = s.splitn(2, '|');
         // Find identifier digits
-        let mut digit_key = KeyDigits::default();
-        let line = s.splitn(11, ' ');
-        line.take(10).for_each(|digit| match digit.len() {
-            2 => digit_key.one = to_bits(digit),
-            4 => digit_key.four = to_bits(digit),
-            _ => (),
-        });
+        let digit_key = data
+            .next()
+            .expect("failed to split line")
+            .splitn(11, ' ')
+            .take(10)
+            .fold(KeyDigits::default(), |mut key, digit| {
+                match digit.len() {
+                    2 => key.one = to_bits(digit),
+                    4 => key.four = to_bits(digit),
+                    _ => (),
+                };
+                key
+            });
 
         // Convert final 4 digits
-        let line = s.splitn(16, &[' ', '|'][..]);
-        let mut digits = [0_u8; NUMBER_DIGITS];
-        line.skip(12).take(4).enumerate().for_each(|(i, digit)| {
-            let value = to_bits(digit);
-            digits[i] = match digit.len() {
-                2 => 1,
-                3 => 7,
-                4 => 4,
-                7 => 8,
-                5 => {
-                    if (value & digit_key.one).count_ones() == 2 {
-                        3
-                    } else if (value & digit_key.four).count_ones() == 3 {
-                        5
-                    } else {
-                        2
+        let digits = data
+            .next()
+            .expect("failed to split line")
+            .splitn(5, ' ')
+            .skip(1)
+            .take(4)
+            .enumerate()
+            .fold([0; NUMBER_DIGITS], |mut digits, (i, digit)| {
+                let value = to_bits(digit);
+                digits[i] = match digit.len() {
+                    2 => 1,
+                    3 => 7,
+                    4 => 4,
+                    7 => 8,
+                    5 => {
+                        if (value & digit_key.one).count_ones() == 2 {
+                            3
+                        } else if (value & digit_key.four).count_ones() == 3 {
+                            5
+                        } else {
+                            2
+                        }
                     }
-                }
-                6 => {
-                    if (value & digit_key.one).count_ones() == 1 {
-                        6
-                    } else if (value & digit_key.four).count_ones() == 3 {
-                        0
-                    } else {
-                        9
+                    6 => {
+                        if (value & digit_key.one).count_ones() == 1 {
+                            6
+                        } else if (value & digit_key.four).count_ones() == 3 {
+                            0
+                        } else {
+                            9
+                        }
                     }
-                }
-                _ => unreachable!(),
-            }
-        });
+                    _ => unreachable!(),
+                };
+                digits
+            });
         Ok(Self { digits })
     }
 }
