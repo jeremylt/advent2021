@@ -53,7 +53,7 @@ impl std::str::FromStr for Display {
                 5 => {
                     if (value & digit_key.one).count_ones() == 2 {
                         3
-                    } else if (value & (digit_key.four & !digit_key.one)).count_ones() == 2 {
+                    } else if (value & digit_key.four).count_ones() == 3 {
                         5
                     } else {
                         2
@@ -62,7 +62,7 @@ impl std::str::FromStr for Display {
                 6 => {
                     if (value & digit_key.one).count_ones() == 1 {
                         6
-                    } else if (value & (digit_key.four & !digit_key.one)).count_ones() == 1 {
+                    } else if (value & digit_key.four).count_ones() == 3 {
                         0
                     } else {
                         9
