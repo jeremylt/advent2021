@@ -177,6 +177,35 @@
 <span id="177">177</span>
 <span id="178">178</span>
 <span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 8:</span>
 <span class="doccomment">//! For this puzzle I decided to parse all input into digits first. Pushing</span>
 <span class="doccomment">//! all of the work into the input parsing made the two questions trivial.</span>
@@ -186,6 +215,35 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">const</span> <span class="ident">NUMBER_DIGITS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
+
+<span class="comment">//    0:      1:      2:      3:      4:</span>
+<span class="comment">//  aaaa    ....    aaaa    aaaa    ....</span>
+<span class="comment">// b    c  .    c  .    c  .    c  b    c</span>
+<span class="comment">// b    c  .    c  .    c  .    c  b    c</span>
+<span class="comment">//  ....    ....    dddd    dddd    dddd</span>
+<span class="comment">// e    f  .    f  e    .  .    f  .    f</span>
+<span class="comment">// e    f  .    f  e    .  .    f  .    f</span>
+<span class="comment">//  gggg    ....    gggg    gggg    ....</span>
+<span class="comment">// </span>
+<span class="comment">//  5:      6:      7:      8:      9:</span>
+<span class="comment">//  aaaa    aaaa    aaaa    aaaa    aaaa</span>
+<span class="comment">// b    .  b    .  .    c  b    c  b    c</span>
+<span class="comment">// b    .  b    .  .    c  b    c  b    c</span>
+<span class="comment">//  dddd    dddd    ....    dddd    dddd</span>
+<span class="comment">// .    f  e    f  .    f  e    f  .    f</span>
+<span class="comment">// .    f  e    f  .    f  e    f  .    f</span>
+<span class="comment">// gggg    gggg    ....    gggg    gggg</span>
+<span class="comment">//</span>
+<span class="comment">// 0: has 6 segments, 3 overlapping with 4</span>
+<span class="comment">// 1: has 2 segments</span>
+<span class="comment">// 2: has 5 segments, last option</span>
+<span class="comment">// 3: has 5 segments, 2 overlapping with 1</span>
+<span class="comment">// 4: has 4 segments</span>
+<span class="comment">// 5: has 5 segments, 3 overlapping with 4</span>
+<span class="comment">// 6: has 6 segments, 1 overlapping with 1</span>
+<span class="comment">// 7: has 3 segments</span>
+<span class="comment">// 8: has 7 segments</span>
+<span class="comment">// 9: has 6 segments, last option</span>
 
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Display data struct</span>
