@@ -206,6 +206,33 @@
 <span id="206">206</span>
 <span id="207">207</span>
 <span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Day 8:</span>
 <span class="doccomment">//! For this puzzle I decided to parse all input into digits first. Pushing</span>
 <span class="doccomment">//! all of the work into the input parsing made the two questions trivial.</span>
@@ -325,19 +352,22 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">Display</span> {
+    <span class="kw">fn</span> <span class="ident">count_simple_digits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u8</span> {
+        <span class="self">self</span>.<span class="ident">digits</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">digit</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">1</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">4</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">7</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">8</span>)
+            .<span class="ident">count</span>() <span class="kw">as</span> <span class="ident">u8</span>
+    }
+}
+
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Part 1</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">fn</span> <span class="ident">part_1</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Display</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
     <span class="prelude-val">Ok</span>(<span class="ident">positions</span>
         .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">display</span><span class="op">|</span> {
-            <span class="ident">display</span>
-                .<span class="ident">digits</span>
-                .<span class="ident">iter</span>()
-                .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">digit</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">1</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">4</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">7</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">digit</span> <span class="op">==</span> <span class="number">8</span>)
-                .<span class="ident">count</span>() <span class="kw">as</span> <span class="ident">u32</span>
-        })
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">display</span><span class="op">|</span> <span class="ident">display</span>.<span class="ident">count_simple_digits</span>() <span class="kw">as</span> <span class="ident">u32</span>)
         .<span class="ident">sum</span>())
 }
 
@@ -354,6 +384,22 @@
                 <span class="op">+</span> <span class="ident">display</span>.<span class="ident">digits</span>[<span class="number">3</span>] <span class="kw">as</span> <span class="ident">u32</span>
         })
         .<span class="ident">sum</span>())
+}
+
+<span class="comment">// -----------------------------------------------------------------------------</span>
+<span class="comment">// Combined</span>
+<span class="comment">// -----------------------------------------------------------------------------</span>
+<span class="kw">fn</span> <span class="ident">combined</span>(<span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Display</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="ident">positions</span>.<span class="ident">fold</span>((<span class="number">0</span>, <span class="number">0</span>), <span class="op">|</span><span class="ident">acc</span>, <span class="ident">display</span><span class="op">|</span> {
+        (
+            <span class="ident">acc</span>.<span class="number">0</span> <span class="op">+</span> <span class="ident">display</span>.<span class="ident">count_simple_digits</span>() <span class="kw">as</span> <span class="ident">u32</span>,
+            <span class="ident">acc</span>.<span class="number">1</span>
+                <span class="op">+</span> <span class="ident">display</span>.<span class="ident">digits</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">1000</span>
+                <span class="op">+</span> <span class="ident">display</span>.<span class="ident">digits</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">100</span>
+                <span class="op">+</span> <span class="ident">display</span>.<span class="ident">digits</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">10</span>
+                <span class="op">+</span> <span class="ident">display</span>.<span class="ident">digits</span>[<span class="number">3</span>] <span class="kw">as</span> <span class="ident">u32</span>,
+        )
+    }))
 }
 
 <span class="comment">// -----------------------------------------------------------------------------</span>
@@ -388,17 +434,25 @@
     <span class="kw">let</span> <span class="ident">time_part_2</span> <span class="op">=</span> <span class="ident">start_part_2</span>.<span class="ident">elapsed</span>();
 
     <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Combined</span>
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Sum all digits</span>
+    <span class="kw">let</span> <span class="ident">start_combined</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">displays</span> <span class="op">=</span> <span class="ident">buffer</span>
+        .<span class="ident">lines</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">line</span><span class="op">|</span> <span class="ident">line</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;failed to decode line&quot;</span>));
+    <span class="kw">let</span> (<span class="ident">count_combined</span>, <span class="ident">sum_combined</span>) <span class="op">=</span> <span class="ident">combined</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">displays</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">time_combined</span> <span class="op">=</span> <span class="ident">start_combined</span>.<span class="ident">elapsed</span>();
+    <span class="macro">assert_eq!</span>(<span class="ident">count_1</span>, <span class="ident">count_combined</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">sum_2</span>, <span class="ident">sum_combined</span>);
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="comment">// Return</span>
     <span class="comment">// -------------------------------------------------------------------------</span>
     <span class="prelude-val">Ok</span>(<span class="ident">RunData::new</span>(
         <span class="ident">count_1</span> <span class="kw">as</span> <span class="ident">i64</span>,
         <span class="ident">sum_2</span> <span class="kw">as</span> <span class="ident">i64</span>,
-        <span class="ident">Timing::new</span>(
-            <span class="ident">time_setup</span>,
-            <span class="ident">time_part_1</span>,
-            <span class="ident">time_part_2</span>,
-            <span class="ident">std::time::Duration::new</span>(<span class="number">0</span>, <span class="number">0</span>),
-        ),
+        <span class="ident">Timing::new</span>(<span class="ident">time_setup</span>, <span class="ident">time_part_1</span>, <span class="ident">time_part_2</span>, <span class="ident">time_combined</span>),
     ))
 }
 

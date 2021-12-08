@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["NUMBER_DIGITS",""]],"fn":[["part_1",""],["part_2",""],["report",""],["run",""],["to_bits",""]],"struct":[["Display",""],["KeyDigits",""]]});
+initSidebarItems({"constant":[["NUMBER_DIGITS",""]],"fn":[["combined",""],["part_1",""],["part_2",""],["report",""],["run",""],["to_bits",""]],"struct":[["Display",""],["KeyDigits",""]]});
