@@ -66,7 +66,7 @@ impl std::str::FromStr for Display {
             let value = to_bits(digit);
             digits[i] = digit_key
                 .iter()
-                .position(|&num| num == value)
+                .position(|num| *num == value)
                 .expect("failed to find digit") as u8;
         });
         Ok(Self { digits })
@@ -83,7 +83,7 @@ fn part_1(positions: &Vec<Display>) -> crate::Result<u32> {
             display
                 .digits
                 .iter()
-                .filter(|&&digit| digit == 1 || digit == 4 || digit == 7 || digit == 8)
+                .filter(|digit| **digit == 1 || **digit == 4 || **digit == 7 || **digit == 8)
                 .count() as u32
         })
         .sum())

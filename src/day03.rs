@@ -34,7 +34,7 @@ fn part_1(report: &Vec<&str>) -> crate::Result<i64> {
         &String::from_utf8(
             counts_to_bytes
                 .iter()
-                .map(|&b| if b == b'0' { b'1' } else { b'0' })
+                .map(|b| if *b == b'0' { b'1' } else { b'0' })
                 .collect(),
         )?,
         2,
