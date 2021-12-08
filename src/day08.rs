@@ -117,19 +117,22 @@ impl std::str::FromStr for Display {
     }
 }
 
+impl Display {
+    fn count_simple_digits(&self) -> u8 {
+        self.digits
+            .iter()
+            .filter(|digit| **digit == 1 || **digit == 4 || **digit == 7 || **digit == 8)
+            .count() as u8
+    }
+}
+
 // -----------------------------------------------------------------------------
 // Part 1
 // -----------------------------------------------------------------------------
 fn part_1(positions: &Vec<Display>) -> crate::Result<u32> {
     Ok(positions
         .iter()
-        .map(|display| {
-            display
-                .digits
-                .iter()
-                .filter(|digit| **digit == 1 || **digit == 4 || **digit == 7 || **digit == 8)
-                .count() as u32
-        })
+        .map(|display| display.count_simple_digits() as u32)
         .sum())
 }
 
@@ -146,6 +149,22 @@ fn part_2(positions: &Vec<Display>) -> crate::Result<u32> {
                 + display.digits[3] as u32
         })
         .sum())
+}
+
+// -----------------------------------------------------------------------------
+// Combined
+// -----------------------------------------------------------------------------
+fn combined(positions: &mut dyn Iterator<Item = Display>) -> crate::Result<(u32, u32)> {
+    Ok(positions.fold((0, 0), |acc, display| {
+        (
+            acc.0 + display.count_simple_digits() as u32,
+            acc.1
+                + display.digits[0] as u32 * 1000
+                + display.digits[1] as u32 * 100
+                + display.digits[2] as u32 * 10
+                + display.digits[3] as u32,
+        )
+    }))
 }
 
 // -----------------------------------------------------------------------------
@@ -180,17 +199,25 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     let time_part_2 = start_part_2.elapsed();
 
     // -------------------------------------------------------------------------
+    // Combined
+    // -------------------------------------------------------------------------
+    // Sum all digits
+    let start_combined = Instant::now();
+    let mut displays = buffer
+        .lines()
+        .map(|line| line.parse().expect("failed to decode line"));
+    let (count_combined, sum_combined) = combined(&mut displays)?;
+    let time_combined = start_combined.elapsed();
+    assert_eq!(count_1, count_combined);
+    assert_eq!(sum_2, sum_combined);
+
+    // -------------------------------------------------------------------------
     // Return
     // -------------------------------------------------------------------------
     Ok(RunData::new(
         count_1 as i64,
         sum_2 as i64,
-        Timing::new(
-            time_setup,
-            time_part_1,
-            time_part_2,
-            std::time::Duration::new(0, 0),
-        ),
+        Timing::new(time_setup, time_part_1, time_part_2, time_combined),
     ))
 }
 
