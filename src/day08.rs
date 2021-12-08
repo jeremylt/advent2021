@@ -1,18 +1,25 @@
 //! Day 8:
 //! For this puzzle I decided to parse all input into digits first. Pushing
 //! all of the work into the input parsing made the two questions trivial.
+//! To parse the final 4 digits, only the 1 and 4 of the initial digits are
+//! required. You don't need to identify all 10 digits.
 
 use crate::prelude::*;
 
-const NUMBER_DIGITS_DISPLAY: usize = 4;
-const NUMBER_DIGITS_TOTAL: usize = 10;
+const NUMBER_DIGITS: usize = 4;
 
 // -----------------------------------------------------------------------------
 // Display data struct
 // -----------------------------------------------------------------------------
 #[derive(Default, Debug)]
 struct Display {
-    digits: [u8; NUMBER_DIGITS_DISPLAY],
+    digits: [u8; NUMBER_DIGITS],
+}
+
+#[derive(Default, Debug)]
+struct KeyDigits {
+    one: u8,
+    four: u8,
 }
 
 fn to_bits(s: &str) -> u8 {
@@ -24,50 +31,45 @@ fn to_bits(s: &str) -> u8 {
 impl std::str::FromStr for Display {
     type Err = crate::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        // Convert first 10 digits
-        let mut digit_key = [0; NUMBER_DIGITS_TOTAL];
-        let mut line = s.splitn(11, ' ');
-        line.by_ref().take(10).for_each(|digit| match digit.len() {
-            2 => digit_key[1] = to_bits(digit),
-            3 => digit_key[7] = to_bits(digit),
-            4 => digit_key[4] = to_bits(digit),
-            7 => digit_key[8] = 127,
+        // Find identifier digits
+        let mut digit_key = KeyDigits::default();
+        let line = s.splitn(11, ' ');
+        line.take(10).for_each(|digit| match digit.len() {
+            2 => digit_key.one = to_bits(digit),
+            4 => digit_key.four = to_bits(digit),
             _ => (),
         });
-        let mut line = s.splitn(16, &[' ', '|'][..]);
-        line.by_ref().take(10).for_each(|digit| match digit.len() {
-            5 => {
-                let value = to_bits(digit);
-                if (value & digit_key[1]).count_ones() == 2 {
-                    digit_key[3] = value;
-                } else if (value & (digit_key[4] & !digit_key[1])).count_ones() == 2 {
-                    digit_key[5] = value;
-                } else {
-                    digit_key[2] = value;
-                }
-            }
-            6 => {
-                let value = to_bits(digit);
-                if (value & digit_key[1]).count_ones() == 1 {
-                    digit_key[6] = value;
-                } else if (value & (digit_key[4] & !digit_key[1])).count_ones() == 1 {
-                    digit_key[0] = value;
-                } else {
-                    digit_key[9] = value;
-                }
-            }
-            _ => (),
-        });
-        line.next();
-        line.next();
+
         // Convert final 4 digits
-        let mut digits = [0_u8; NUMBER_DIGITS_DISPLAY];
-        line.take(4).enumerate().for_each(|(i, digit)| {
+        let line = s.splitn(16, &[' ', '|'][..]);
+        let mut digits = [0_u8; NUMBER_DIGITS];
+        line.skip(12).take(4).enumerate().for_each(|(i, digit)| {
             let value = to_bits(digit);
-            digits[i] = digit_key
-                .iter()
-                .position(|num| *num == value)
-                .expect("failed to find digit") as u8;
+            digits[i] = match digit.len() {
+                2 => 1,
+                3 => 7,
+                4 => 4,
+                7 => 8,
+                5 => {
+                    if (value & digit_key.one).count_ones() == 2 {
+                        3
+                    } else if (value & (digit_key.four & !digit_key.one)).count_ones() == 2 {
+                        5
+                    } else {
+                        2
+                    }
+                }
+                6 => {
+                    if (value & digit_key.one).count_ones() == 1 {
+                        6
+                    } else if (value & (digit_key.four & !digit_key.one)).count_ones() == 1 {
+                        0
+                    } else {
+                        9
+                    }
+                }
+                _ => unreachable!(),
+            }
         });
         Ok(Self { digits })
     }
