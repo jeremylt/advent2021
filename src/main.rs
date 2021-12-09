@@ -9,6 +9,7 @@ mod day05;
 mod day06;
 mod day07;
 mod day08;
+mod day09;
 mod load;
 mod output;
 
@@ -118,7 +119,7 @@ pub(crate) mod prelude {
 // -----------------------------------------------------------------------------
 fn main() -> Result<()> {
     // Setup
-    const DAYS: usize = 8;
+    const DAYS: usize = 9;
     let runs = [
         day01::run,
         day02::run,
@@ -128,6 +129,7 @@ fn main() -> Result<()> {
         day06::run,
         day07::run,
         day08::run,
+        day09::run,
     ];
     let data = [
         "data/day01_actual.txt",
@@ -138,6 +140,7 @@ fn main() -> Result<()> {
         "data/day06_actual.txt",
         "data/day07_actual.txt",
         "data/day08_actual.txt",
+        "data/day09_actual.txt",
     ];
     let reports = [
         day01::report,
@@ -148,11 +151,13 @@ fn main() -> Result<()> {
         day06::report,
         day07::report,
         day08::report,
+        day09::report,
     ];
 
     // Each day
     output::print_header()?;
     let mut day_results: [Vec<RunData>; DAYS] = [
+        vec![],
         vec![],
         vec![],
         vec![],
@@ -380,6 +385,22 @@ mod tests {
         let buffer = crate::load::data_to_buffer("data/day08_actual.txt".to_string())?;
         let results = day08::run(buffer)?;
         test_day!(results, 294, 973_292);
+        Ok(())
+    }
+
+    #[test]
+    fn test_09_sample() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day09_sample.txt".to_string())?;
+        let results = day09::run(buffer)?;
+        test_day!(results, 15, 1_134);
+        Ok(())
+    }
+
+    #[test]
+    fn test_09_actual() -> Result<()> {
+        let buffer = crate::load::data_to_buffer("data/day09_actual.txt".to_string())?;
+        let results = day09::run(buffer)?;
+        test_day!(results, 462, 1_397_760);
         Ok(())
     }
 }
