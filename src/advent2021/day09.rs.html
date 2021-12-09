@@ -174,10 +174,10 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">fn</span> <span class="ident">find_basin_size</span>(<span class="ident">i</span>: <span class="ident">usize</span>, <span class="ident">j</span>: <span class="ident">usize</span>, <span class="ident">width</span>: <span class="ident">usize</span>, <span class="ident">smoke</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="ident">u32</span> {
     <span class="kw">let</span> <span class="ident">current</span> <span class="op">=</span> <span class="ident">smoke</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">j</span> <span class="op">*</span> <span class="ident">width</span>];
-    <span class="kw">if</span> <span class="ident">current</span> <span class="op">==</span> <span class="number">10</span> <span class="op">|</span><span class="op">|</span> <span class="ident">current</span> <span class="op">==</span> <span class="ident">u8::MAX</span> {
+    <span class="kw">if</span> <span class="ident">current</span> <span class="op">==</span> <span class="number">10</span> {
         <span class="number">0</span>
     } <span class="kw">else</span> {
-        <span class="ident">smoke</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">j</span> <span class="op">*</span> <span class="ident">width</span>] <span class="op">=</span> <span class="ident">u8::MAX</span>;
+        <span class="ident">smoke</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">j</span> <span class="op">*</span> <span class="ident">width</span>] <span class="op">=</span> <span class="number">10</span>;
         <span class="number">1</span> <span class="op">+</span> <span class="ident">find_basin_size</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">j</span>, <span class="ident">width</span>, <span class="ident">smoke</span>)
             <span class="op">+</span> <span class="ident">find_basin_size</span>(<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>, <span class="ident">j</span>, <span class="ident">width</span>, <span class="ident">smoke</span>)
             <span class="op">+</span> <span class="ident">find_basin_size</span>(<span class="ident">i</span>, <span class="ident">j</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">width</span>, <span class="ident">smoke</span>)
@@ -204,7 +204,7 @@
     <span class="comment">// Read to vector</span>
     <span class="kw">let</span> <span class="ident">start_setup</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">lines</span>().<span class="ident">nth</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;failed to load input&quot;</span>).<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">smoke</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">u8::MAX</span>; <span class="ident">width</span> <span class="op">*</span> <span class="ident">width</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">smoke</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">10</span>; <span class="ident">width</span> <span class="op">*</span> <span class="ident">width</span>];
     <span class="ident">buffer</span>.<span class="ident">lines</span>().<span class="ident">enumerate</span>().<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">j</span>, <span class="ident">line</span>)<span class="op">|</span> {
         <span class="ident">line</span>.<span class="ident">as_bytes</span>()
             .<span class="ident">iter</span>()
