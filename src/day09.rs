@@ -45,10 +45,10 @@ fn part_1(smoke: &Vec<u8>, width: usize) -> crate::Result<(u32, Vec<Point>)> {
 // -----------------------------------------------------------------------------
 fn find_basin_size(i: usize, j: usize, width: usize, smoke: &mut Vec<u8>) -> u32 {
     let current = smoke[i + j * width];
-    if current == 10 || current == u8::MAX {
+    if current == 10 {
         0
     } else {
-        smoke[i + j * width] = u8::MAX;
+        smoke[i + j * width] = 10;
         1 + find_basin_size(i + 1, j, width, smoke)
             + find_basin_size(i - 1, j, width, smoke)
             + find_basin_size(i, j + 1, width, smoke)
@@ -75,7 +75,7 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // Read to vector
     let start_setup = Instant::now();
     let width = buffer.lines().nth(0).expect("failed to load input").len() + 2;
-    let mut smoke = vec![u8::MAX; width * width];
+    let mut smoke = vec![10; width * width];
     buffer.lines().enumerate().for_each(|(j, line)| {
         line.as_bytes()
             .iter()
