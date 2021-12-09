@@ -44,8 +44,7 @@ fn part_1(smoke: &Vec<u8>, width: usize) -> crate::Result<(u32, Vec<Point>)> {
 // Part 2
 // -----------------------------------------------------------------------------
 fn find_basin_size(i: usize, j: usize, width: usize, smoke: &mut Vec<u8>) -> u32 {
-    let current = smoke[i + j * width];
-    if current == 10 {
+    if smoke[i + j * width] == 10 {
         0
     } else {
         smoke[i + j * width] = 10;
