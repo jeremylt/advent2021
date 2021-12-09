@@ -29,7 +29,7 @@ fn part_1(smoke: &Vec<u8>, width: usize) -> crate::Result<(u32, Vec<Point>)> {
                 && current < smoke[i + (j + 1) * width]
                 && current < smoke[i + (j - 1) * width]
             {
-                risk_sum += current as u32;
+                risk_sum += current as u32 + 1;
                 low_points.push(Point {
                     x: i as u8,
                     y: j as u8,
@@ -44,10 +44,10 @@ fn part_1(smoke: &Vec<u8>, width: usize) -> crate::Result<(u32, Vec<Point>)> {
 // Part 2
 // -----------------------------------------------------------------------------
 fn find_basin_size(i: usize, j: usize, width: usize, smoke: &mut Vec<u8>) -> u32 {
-    if smoke[i + j * width] == 10 {
+    if smoke[i + j * width] == 9 {
         0
     } else {
-        smoke[i + j * width] = 10;
+        smoke[i + j * width] = 9;
         1 + find_basin_size(i + 1, j, width, smoke)
             + find_basin_size(i - 1, j, width, smoke)
             + find_basin_size(i, j + 1, width, smoke)
@@ -74,12 +74,12 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // Read to vector
     let start_setup = Instant::now();
     let width = buffer.lines().nth(0).expect("failed to load input").len() + 2;
-    let mut smoke = vec![10; width * width];
+    let mut smoke = vec![9; width * width];
     buffer.lines().enumerate().for_each(|(j, line)| {
         line.as_bytes()
             .iter()
             .enumerate()
-            .for_each(|(i, height)| smoke[(i + 1) + (j + 1) * width] = (*height - b'0') + 1)
+            .for_each(|(i, height)| smoke[(i + 1) + (j + 1) * width] = *height - b'0')
     });
     let time_setup = start_setup.elapsed();
 
