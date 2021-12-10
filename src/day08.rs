@@ -195,7 +195,6 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     // -------------------------------------------------------------------------
     // Combined
     // -------------------------------------------------------------------------
-    // Sum all digits
     let start_combined = Instant::now();
     let mut displays = buffer
         .lines()
