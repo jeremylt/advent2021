@@ -427,6 +427,27 @@
 <span id="427">427</span>
 <span id="428">428</span>
 <span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
 </pre><pre class="rust"><code><span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="comment">// Modules</span>
 <span class="comment">// -----------------------------------------------------------------------------</span>
@@ -440,6 +461,7 @@
 <span class="kw">mod</span> <span class="ident">day08</span>;
 <span class="kw">mod</span> <span class="ident">day09</span>;
 <span class="kw">mod</span> <span class="ident">day10</span>;
+<span class="kw">mod</span> <span class="ident">day11</span>;
 <span class="kw">mod</span> <span class="ident">load</span>;
 <span class="kw">mod</span> <span class="ident">output</span>;
 
@@ -549,7 +571,7 @@
 <span class="comment">// -----------------------------------------------------------------------------</span>
 <span class="kw">fn</span> <span class="ident">main</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
-    <span class="kw">const</span> <span class="ident">DAYS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">10</span>;
+    <span class="kw">const</span> <span class="ident">DAYS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">11</span>;
     <span class="kw">let</span> <span class="ident">runs</span> <span class="op">=</span> [
         <span class="ident">day01::run</span>,
         <span class="ident">day02::run</span>,
@@ -561,6 +583,7 @@
         <span class="ident">day08::run</span>,
         <span class="ident">day09::run</span>,
         <span class="ident">day10::run</span>,
+        <span class="ident">day11::run</span>,
     ];
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> [
         <span class="string">&quot;data/day01_actual.txt&quot;</span>,
@@ -573,6 +596,7 @@
         <span class="string">&quot;data/day08_actual.txt&quot;</span>,
         <span class="string">&quot;data/day09_actual.txt&quot;</span>,
         <span class="string">&quot;data/day10_actual.txt&quot;</span>,
+        <span class="string">&quot;data/day11_actual.txt&quot;</span>,
     ];
     <span class="kw">let</span> <span class="ident">reports</span> <span class="op">=</span> [
         <span class="ident">day01::report</span>,
@@ -585,11 +609,13 @@
         <span class="ident">day08::report</span>,
         <span class="ident">day09::report</span>,
         <span class="ident">day10::report</span>,
+        <span class="ident">day11::report</span>,
     ];
 
     <span class="comment">// Each day</span>
     <span class="ident">output::print_header</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">day_results</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RunData</span><span class="op">&gt;</span>; <span class="ident">DAYS</span>] <span class="op">=</span> [
+        <span class="macro">vec!</span>[],
         <span class="macro">vec!</span>[],
         <span class="macro">vec!</span>[],
         <span class="macro">vec!</span>[],
@@ -851,6 +877,22 @@
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day10_actual.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day10::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
         <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">316_851</span>, <span class="number">2_182_912_364</span>);
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_11_sample</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day11_sample.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day11::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">1_656</span>, <span class="number">195</span>);
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_11_actual</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::load::data_to_buffer</span>(<span class="string">&quot;data/day11_actual.txt&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">day11::run</span>(<span class="ident">buffer</span>)<span class="question-mark">?</span>;
+        <span class="macro">test_day!</span>(<span class="ident">results</span>, <span class="number">1_637</span>, <span class="number">242</span>);
         <span class="prelude-val">Ok</span>(())
     }
 }
