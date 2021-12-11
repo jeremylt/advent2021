@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["GRID_SIZE",""]],"fn":[["part_1",""],["report",""],["run",""]],"struct":[["Point",""],["Segment",""]]});
+initSidebarItems({"constant":[["GRID_SIZE",""]],"fn":[["part_1",""],["report",""],["run",""]],"struct":[["Segment",""]]});
