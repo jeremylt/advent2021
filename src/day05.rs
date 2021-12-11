@@ -8,55 +8,43 @@
 
 use crate::prelude::*;
 
-const GRID_SIZE: usize = 1000;
+const GRID_SIZE: usize = 999;
 
 // -----------------------------------------------------------------------------
 // Segment data struct
 // -----------------------------------------------------------------------------
 #[derive(Default, Debug)]
-struct Point {
-    x: i16,
-    y: i16,
-}
-
-#[derive(Default, Debug)]
 struct Segment {
-    start: Point,
-    stop: Point,
-    dx: i8,
-    dy: i8,
-    steps: i16,
+    start: usize,
+    stop: usize,
+    step: usize,
+    diagonal: bool,
 }
 
 impl std::str::FromStr for Segment {
     type Err = crate::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut line = s.split(|c| !char::is_numeric(c));
-        let start_x = line.next().expect("failed to parse segment").parse()?;
-        let start_y = line.next().expect("failed to parse segment").parse()?;
+        let mut line = s.splitn(7, |c| !char::is_numeric(c));
+        let start_x: usize = line.next().expect("failed to parse segment").parse()?;
+        let start_y: usize = line.next().expect("failed to parse segment").parse()?;
         line.next();
         line.next();
         line.next();
-        let stop_x = line.next().expect("failed to parse segment").parse()?;
-        let stop_y = line.next().expect("failed to parse segment").parse()?;
+        let stop_x: usize = line.next().expect("failed to parse segment").parse()?;
+        let stop_y: usize = line.next().expect("failed to parse segment").parse()?;
+
         let dx = (stop_x as i16 - start_x as i16).signum() as i8;
         let dy = (stop_y as i16 - start_y as i16).signum() as i8;
-        let steps = std::cmp::max(
-            (start_x as i16 - stop_x as i16).abs(),
-            (start_y as i16 - stop_y as i16).abs(),
-        );
+
+        let start = start_x * GRID_SIZE + start_y;
+        let stop = stop_x * GRID_SIZE + stop_y;
+        let step = (dx as i32 * GRID_SIZE as i32 + dy as i32).abs() as usize;
+
         Ok(Self {
-            start: Point {
-                x: start_x,
-                y: start_y,
-            },
-            stop: Point {
-                x: stop_x,
-                y: stop_y,
-            },
-            dx: dx,
-            dy: dy,
-            steps: steps,
+            start: if start < stop { start } else { stop },
+            stop: if start < stop { stop } else { start },
+            step: step,
+            diagonal: dx != 0 && dy != 0,
         })
     }
 }
@@ -64,24 +52,18 @@ impl std::str::FromStr for Segment {
 // -----------------------------------------------------------------------------
 // Part 1/2
 // -----------------------------------------------------------------------------
-fn part_1(grid: &mut [u8; GRID_SIZE * GRID_SIZE], segments: &Vec<Segment>) -> crate::Result<usize> {
+fn part_1(grid: &mut [u8; GRID_SIZE * GRID_SIZE], segments: &Vec<Segment>) -> crate::Result<u16> {
     let mut count = 0;
     segments.iter().for_each(|segment| {
-        let start = (segment.start.x as usize) * GRID_SIZE + segment.start.y as usize;
-        let stop = (segment.stop.x as usize) * GRID_SIZE + segment.stop.y as usize;
-        let step = (segment.dx as i32 * GRID_SIZE as i32 + segment.dy as i32).abs() as usize;
-        let (a, b) = if start < stop {
-            (start, stop)
-        } else {
-            (stop, start)
-        };
-        (a..=b).step_by(step).for_each(|index| unsafe {
-            let point = grid.get_unchecked_mut(index);
-            *point += 1;
-            if *point == 2 {
-                count += 1;
-            }
-        })
+        (segment.start..=segment.stop)
+            .step_by(segment.step)
+            .for_each(|index| unsafe {
+                let point = grid.get_unchecked_mut(index);
+                *point += 1;
+                if *point == 2 {
+                    count += 1;
+                }
+            })
     });
     Ok(count)
 }
@@ -99,10 +81,10 @@ pub(crate) fn run(buffer: String) -> crate::Result<RunData> {
     let mut segments_2: Vec<Segment> = Vec::new();
     buffer.lines().for_each(|line| {
         let segment: Segment = line.parse().expect("failed to parse line");
-        if segment.dx == 0 || segment.dy == 0 {
-            segments_1.push(segment)
-        } else {
+        if segment.diagonal {
             segments_2.push(segment)
+        } else {
+            segments_1.push(segment)
         };
     });
     let mut grid = [0_u8; GRID_SIZE * GRID_SIZE];
